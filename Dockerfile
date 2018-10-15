@@ -7,7 +7,7 @@ RUN apk add --no-cache curl tar bash
 ## Install JDK1.8
 RUN mkdir /usr/local/jdk \
     &&  wget --no-check-certificate   --header "Cookie: oraclelicense=accept-securebackup-cookie"  -P /usr/local/jdk http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.tar.gz \
-    && tar zxvf /usr/local/jdk/jdk-8u181-linux-x64.tar.gz \
+    && tar zxvf /usr/local/jdk/jdk-8u181-linux-x64.tar.gz -C /usr/local \
     && rm -f /usr/local/jdk/jdk-8u181-linux-x64.tar.gz
 
 ENV JAVA_HOME=/usr/local/jdk1.8.0_181
