@@ -55,8 +55,7 @@ RUN wget --no-check-certificate  -P /root https://archive.apache.org/dist/jmeter
     && tar zxvf /root/apache-jmeter-4.0.tgz -C /root \
     && tar zxvf /root/apache-ant-1.10.5-bin.tar.gz -C /root \
     && cp /root/apache-jmeter-4.0/extras/ant-jmeter-1.1.1.jar  /root/apache-ant-1.10.5/lib/ant-jmeter-1.1.1.jar \
-    && rm -f /root/apache-jmeter-4.0.tgz /root/apache-ant-1.10.5-bin.tar.gz \
-    && apk del curl wget tar
+    && rm -f /root/apache-jmeter-4.0.tgz /root/apache-ant-1.10.5-bin.tar.gz 
 
 ENV JMETER_HOME=/root/apache-jmeter-4.0
 ENV ANT_HOME=/root/apache-ant-1.10.5
@@ -65,3 +64,13 @@ ENV PATH=${JAVA_HOME}/bin:${PATH}:$JMETER_HOME/bin:$PATH
 ENV CLASSPATH=$JMETER_HOME/lib/ext/ApacheJMeter_core.jar:$JMETER_HOME/lib/jorphan.jar:$JMETER_HOME/lib/logkit-2.0.jar:$CLASSPATH
 ENV CLASSPATH=.:${JAVA_HOME}/lib:/root/apache-ant-1.10.5/lib/ant-launcher.jar
 
+## install nodejs
+ARG NODEJS_VERSION=v10.13.0
+
+RUN wget -P /root  https://npm.taobao.org/mirrors/node/${NODEJS_VERSION}/node-${NODEJS_VERSION}-linux-x64.tar.gz \
+    && tar zxvf /root/node-${NODEJS_VERSION}-linux-x64.tar.gz  -C /root \
+    && rm -f /root/node-${NODEJS_VERSION}-linux-x64.tar.gz \
+    && apk del curl wget tar
+
+ENV NODEJS_HOME=/root/node-${NODEJS_VERSION}-linux-x64
+ENV PATH=${NODEJS_HOME}/bin:${PATH}:$NODEJS_HOME/bin:$PATH
