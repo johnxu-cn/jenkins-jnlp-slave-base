@@ -9,5 +9,6 @@ RUN apk add -U tzdata \
 FROM xwj0805/jenkins-jnlp-slave-base:latest
 
 COPY --from=builder  /etc/localtime  /etc/localtime
+COPY --from=builder  /usr/local/bin  /usr/local/bin  
 
 WORKDIR /root
