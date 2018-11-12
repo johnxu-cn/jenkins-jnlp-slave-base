@@ -8,7 +8,8 @@ RUN apk add -U tzdata \
    
 
 FROM build-essential 
-ENV NODE_VERSION 10.13.0
+
+ENV NODE_VERSION 8.12.0
 
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
@@ -54,10 +55,10 @@ RUN addgroup -g 1000 node \
     && rm -Rf "node-v$NODE_VERSION" \
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
-ENV YARN_VERSION 1.10.1
+ENV YARN_VERSION 1.9.4
 
 RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
-	    && for key in \
+  && for key in \
     6A010C5166006599AA17F08146C2130DFD2497F5 \
   ; do \
     gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
@@ -73,17 +74,5 @@ RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
   && apk del .build-deps-yarn
-
-## install glibc-2.28-r0 glibc-bin-2.28-r0 glibc-i18n-2.28-r0
-
-RUN apk --no-cache add ca-certificates wget \
-    && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
-    && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk \
-    && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-bin-2.28-r0.apk \
-    && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-i18n-2.28-r0.apk \
-    && apk add glibc-2.28-r0.apk \
-    && apk add glibc-bin-2.28-r0.apk \
-    && apk add glibc-i18n-2.28-r0.apk \
-    && rm glibc-2.28-r0.apk glibc-bin-2.28-r0.apk  glibc-i18n-2.28-r0.apk  
 
 CMD [ "node" ]
