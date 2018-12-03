@@ -14,7 +14,8 @@ ENV NODE_VERSION 8.12.0
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
     && apk add --no-cache \
-        libstdc++ \
+        curl\
+        libstdc++ \ 
     && apk add --no-cache --virtual .build-deps \
         binutils-gold \
         curl \
